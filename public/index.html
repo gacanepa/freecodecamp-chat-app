@@ -95,6 +95,18 @@
 
     #username-input { max-width: 180px; flex: none; }
 
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
     button {
       padding: 0.5rem 1rem;
       background: #4f46e5;
@@ -120,10 +132,12 @@
     <div id="messages"></div>
     <div id="input-area">
       <div class="input-row">
+        <label for="username-input" class="sr-only">Username</label>
         <input id="username-input" type="text" placeholder="Username" maxlength="20" value="Camper" />
         <button id="connect-btn">Connect</button>
       </div>
       <div class="input-row">
+        <label for="message-input" class="sr-only">Message</label>
         <input id="message-input" type="text" placeholder="Type a message…" disabled />
         <button id="send-btn" disabled>Send</button>
       </div>
