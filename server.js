@@ -6,26 +6,17 @@ import { WebSocket, WebSocketServer } from 'ws';
 const PORT = 3001;
 const PUBLIC_DIR = './public';
 
-const MIME_TYPES = {
-  '.html': 'text/html',
-  '.js': 'text/javascript',
-  '.css': 'text/css',
-};
-
 const server = http.createServer((req, res) => {
-  const filePath = path.join(PUBLIC_DIR, req.url === '/' ? 'index.html' : req.url);
+  const filePath = path.join(PUBLIC_DIR, 'index.html');
 
   fs.readFile(filePath, (err, data) => {
     if (err) {
-      res.writeHead(err.code === 'ENOENT' ? 404 : 500);
-      res.end(err.code === 'ENOENT' ? '404 - Not Found' : '500 - Internal Server Error');
+      res.writeHead(500);
+      res.end('500 - Internal Server Error');
       return;
     }
 
-    const ext = path.extname(filePath);
-    res.writeHead(200, {
-      'Content-Type': MIME_TYPES[ext] || 'application/octet-stream',
-    });
+    res.writeHead(200);
     res.end(data);
   });
 });
@@ -40,7 +31,7 @@ wss.on('connection', (socket, req) => {
     type: 'system',
     text: `${username} joined`
   });
-  wss.clients.forEach((client) => {
+  wss.clients.forEach(client => {
     if (client.readyState === WebSocket.OPEN) {
       client.send(joinedMessage);
     }
@@ -51,7 +42,7 @@ wss.on('connection', (socket, req) => {
       username,
       text: JSON.parse(rawData.toString()).text,
     });
-    wss.clients.forEach((client) => {
+    wss.clients.forEach(client => {
       if (client.readyState === WebSocket.OPEN) {
         client.send(chatMessage);
       }
