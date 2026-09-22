@@ -7,8 +7,8 @@ const PORT = 3001;
 const PUBLIC_DIR = './public';
 
 const server = http.createServer((req, res) => {
-  const filePath = path.join(PUBLIC_DIR, 'index.html');
-
+  // Determine which file is requested (index.html, script.js, etc.)
+  const filePath = path.join(PUBLIC_DIR, `${req.url === '/' ? './index.html' : '.' + req.url}`);
   fs.readFile(filePath, (err, data) => {
     if (err) {
       res.writeHead(500);
