@@ -24,9 +24,9 @@ const server = http.createServer((req, res) => {
 const wss = new WebSocketServer({ server });
 
 wss.on('connection', (socket, req) => {
-  const username = new URL(req.url, 'http://localhost').searchParams.get(
-    'username',
-  ) || 'Anonymous';
+  const username = new URL(
+    req.url,
+    'http://localhost').searchParams.get('username') || 'Anonymous';
   const joinedMessage = JSON.stringify({
     type: 'system',
     text: `${username} joined`
