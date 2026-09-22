@@ -2,6 +2,10 @@ import http from 'node:http';
 import fs from 'node:fs';
 import path from 'node:path';
 import { WebSocket, WebSocketServer } from 'ws';
+import {
+  ReasonPhrases,
+  StatusCodes,
+} from 'http-status-codes';
 
 const PORT = 3001;
 const PUBLIC_DIR = './public';
@@ -11,12 +15,12 @@ const server = http.createServer((req, res) => {
   const filePath = path.join(PUBLIC_DIR, `${req.url === '/' ? './index.html' : '.' + req.url}`);
   fs.readFile(filePath, (err, data) => {
     if (err) {
-      res.writeHead(500);
-      res.end('500 - Internal Server Error');
+      res.writeHead(StatusCodes.INTERNAL_SERVER_ERROR);
+      res.end(`${StatusCodes.INTERNAL_SERVER_ERROR} - ${ReasonPhrases.INTERNAL_SERVER_ERROR}`);
       return;
     }
 
-    res.writeHead(200);
+    res.writeHead(StatusCodes.OK);
     res.end(data);
   });
 });
